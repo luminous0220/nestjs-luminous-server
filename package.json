@@ -1,8 +1,11 @@
 {
-  "name": "server",
+  "name": "luminous-server",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": {
+    "name": "luminous0220",
+    "email": "947839867@qq.com"
+  },
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
