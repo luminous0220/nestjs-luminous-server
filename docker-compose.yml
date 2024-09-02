@@ -1,0 +1,29 @@
+services:
+  nest-app:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    depends_on:
+      - mysql-container
+    ports:
+      - 8182:8182
+    networks:
+      - common-network
+
+  mysql-container:
+    image: mysql
+    volumes:
+      - /usr/volumes/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: xxxx
+      MYSQL_USER: xxxx
+      MYSQL_PASSWORD: xxxx
+      MYSQL_DATABASE: yun_ding
+      TZ: Asia/BeiJing
+    networks:
+      - common-network
+
+networks:
+  # 定义了一个名为 common-network 的网络，并指定使用 bridge 驱动。这使得所有加入该网络的容器可以相互通信
+  common-network:
+    driver: bridge
