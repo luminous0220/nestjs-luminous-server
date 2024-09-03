@@ -27,8 +27,9 @@ async function bootstrap() {
   app.useGlobalInterceptors(new TransformInterceptor())
   // 使用过滤器
   app.useGlobalFilters(new BadRequestExceptionFilter())
-  // 配置静态资产的服务
-  app.useStaticAssets(join(__dirname, '../', 'public'))
+  // 配置静态资产的基础目录
+  app.useStaticAssets(process.env.FILE_PREFIX + process.env.IMAGE_PATH)
+  app.useStaticAssets(process.env.FILE_PREFIX + process.env.EXCLE_PATH)
   // 用于设置视图模板的基础目录
   app.setBaseViewsDir(join(__dirname, '../', 'views'))
   // 设置应用使用的视图引擎

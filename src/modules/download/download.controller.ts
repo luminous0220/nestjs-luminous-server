@@ -21,7 +21,7 @@ export class DownloadController {
   @ApiBearerAuth()
   async download(@Res() res: Response) {
     try {
-      const data = await fs.readFileSync(join(process.env.FILE_PATH, '/Template/usersUploadTml.xlsx'))
+      const data = await fs.readFileSync(join(process.env.FILE_PREFIX + process.env.EXCLE_PATH, '/usersUploadTml.xlsx'))
       res.setHeader(
         'Content-Disposition',
         'attachment; filename=' + encodeURIComponent('用户上传模版.xlsx')

@@ -26,7 +26,7 @@ export const Image = (fileName = 'image', fileSize = Math.pow(1024, 2) * 3) => {
     limits: { fieldSize: fileSize },
     fileFilter: fileTypeFilter(['png', 'jpg', 'jpeg'], '只支持jpg、jpeg、png等格式'),
     storage: diskStorage({
-      destination: process.env.FILE_PATH + '/images',
+      destination: process.env.FILE_PREFIX + process.env.IMAGE_PATH,
       filename: (req, file, cb) => {
         const fileName =
           Date.now() + '-' + Math.round(Math.random() * 1e9) + '-' + file.originalname
