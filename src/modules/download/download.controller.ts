@@ -7,7 +7,6 @@ import { RoleService } from '../role/role.service'
 import { exportExcle } from 'src/utils'
 import { FindAllUserDto } from '../user/dto/FindAllUserDto'
 import { join } from 'node:path'
-import { FILE_PATH } from 'src/common/constants/file.constant'
 
 @Controller('download')
 @ApiTags('下载模块')
@@ -22,7 +21,7 @@ export class DownloadController {
   @ApiBearerAuth()
   async download(@Res() res: Response) {
     try {
-      const data = await fs.readFileSync(join(FILE_PATH, '/Template/usersUploadTml.xlsx'))
+      const data = await fs.readFileSync(join(process.env.FILE_PATH, '/Template/usersUploadTml.xlsx'))
       res.setHeader(
         'Content-Disposition',
         'attachment; filename=' + encodeURIComponent('用户上传模版.xlsx')

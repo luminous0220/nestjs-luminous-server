@@ -9,6 +9,9 @@ interface IRes<T> {
   data: T
 }
 
+/**
+* @description 修改响应报文的数据格式
+*/
 @Injectable()
 export class TransformInterceptor<T> implements NestInterceptor<T, IRes<T>> {
   intercept(context: ExecutionContext, next: CallHandler): Observable<IRes<T>> {

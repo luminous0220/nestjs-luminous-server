@@ -6,7 +6,6 @@ import { Repository } from 'typeorm'
 import { encrypByMd5 } from 'src/utils'
 import { RoleEntity } from '../role/entities/role.entity'
 import { ROLE_ENUME } from 'src/common/constants/role.constant'
-import { FILE_PATH } from 'src/common/constants/file.constant'
 
 @Injectable()
 export class UploadService {

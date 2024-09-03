@@ -2,8 +2,6 @@ import { applyDecorators, UnsupportedMediaTypeException, UseInterceptors } from 
 import { FileInterceptor } from '@nestjs/platform-express'
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface'
 import { diskStorage } from 'multer'
-import path from 'node:path'
-import { FILE_PATH } from '../constants/file.constant'
 
 function upload(fieldName = 'file', options: MulterOptions = {}) {
   return applyDecorators(UseInterceptors(FileInterceptor(fieldName, options)))
@@ -28,7 +26,7 @@ export const Image = (fileName = 'image', fileSize = Math.pow(1024, 2) * 3) => {
     limits: { fieldSize: fileSize },
     fileFilter: fileTypeFilter(['png', 'jpg', 'jpeg'], '只支持jpg、jpeg、png等格式'),
     storage: diskStorage({
-      destination: FILE_PATH + '/images',
+      destination: process.env.FILE_PATH + '/images',
       filename: (req, file, cb) => {
         const fileName =
           Date.now() + '-' + Math.round(Math.random() * 1e9) + '-' + file.originalname
