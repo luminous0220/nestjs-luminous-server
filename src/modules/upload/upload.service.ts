@@ -55,7 +55,7 @@ export class UploadService {
 * @description 保存图片，返回URL
 */
   async handleImageFile(file: Express.Multer.File) {
-    return '/' + file.filename
+    return file.filename
   }
 
   /**
@@ -63,7 +63,7 @@ export class UploadService {
   */
   async editAvatar(id: number, file: Express.Multer.File) {
     const u = await this.userEnity.findOneBy({ id })
-    u.avatar = '/' + file.filename
+    u.avatar = file.filename
     await this.userEnity.save(u)
   }
 }
