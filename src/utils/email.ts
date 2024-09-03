@@ -18,7 +18,7 @@ export const sendEmail = async (
     port: 465, // SMTP 端口
     auth: {
       user: 'xxxxxxxxxxx', // 账号：域名邮箱账号
-      pass: 'dphxgvehubohbahf' // 密码：SMPT获取的授权密码
+      pass: 'asdasdasdasd' // 密码：SMPT获取的授权密码
     }
   })
 
