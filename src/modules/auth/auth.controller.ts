@@ -32,14 +32,8 @@ export class AuthController {
     private readonly authService: AuthService,
     private readonly verifyService: VerifyService,
     private readonly userService: UserService
-  ) {}
+  ) { }
 
-  @ApiOperation({ summary: '初始化数据库' })
-  @Public()
-  @Post('init')
-  async init() {
-    return this.authService.init()
-  }
 
   @ApiOperation({ summary: '用户注册' })
   @Public()

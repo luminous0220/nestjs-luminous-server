@@ -7,7 +7,6 @@ import type { Response, Request } from 'express'
 import {
   EMAIL_AUTH_ENUM,
   PASSWORD_RESET_ENUM,
-  USER_SEX_ENUM,
   USER_STATUS_ENUM,
   USER_STATUS_ENUM_ERROR_MSG
 } from 'src/common'
@@ -17,8 +16,7 @@ import { UserEntity } from '../user/entities/user.entity'
 import { RoleEntity } from '../role/entities/role.entity'
 import { LoginDto } from './dto/LoginDto'
 import { RegisterDto } from './dto/RegisterDto'
-import { ROLE_ENUME, ROLE_TYPE_ENUM } from 'src/common/constants/role.constant'
-import { MenuEntity } from '../menu/entities/menu.entity'
+import { ROLE_ENUME } from 'src/common/constants/role.constant'
 import { UpdatePasswordDto } from './dto/UpdatePasswordDto'
 
 @Injectable()
@@ -30,203 +28,7 @@ export class AuthService {
     private readonly userEntity: Repository<UserEntity>,
     @InjectRepository(RoleEntity)
     private readonly roleEntity: Repository<RoleEntity>,
-    @InjectRepository(MenuEntity)
-    private readonly menuEntity: Repository<MenuEntity>
-  ) {}
-
-  async init() {
-    await this.roleEntity.save([
-      {
-        id: 1,
-        flag: 'super',
-        name: '超级管理员',
-        desc: '',
-        type: ROLE_TYPE_ENUM.BUILT_IN
-      },
-      {
-        id: 2,
-        flag: 'admin',
-        name: '普通管理员',
-        desc: '',
-        type: ROLE_TYPE_ENUM.BUILT_IN
-      },
-      {
-        id: 3,
-        flag: 'user',
-        name: '普通用户',
-        desc: '新增用户及注册用户时默认绑定的角色',
-        type: ROLE_TYPE_ENUM.BUILT_IN
-      }
-    ])
-
-    const sup = await this.roleEntity.findOneBy({
-      flag: ROLE_ENUME.SUPER
-    })
-    const adm = await this.roleEntity.findOneBy({
-      flag: ROLE_ENUME.ADMIN
-    })
-    const user = await this.roleEntity.findOneBy({
-      flag: ROLE_ENUME.USER
-    })
-
-    await this.userEntity.save([
-      {
-        username: 'super',
-        nickname: '超级管理员',
-        password: encrypByMd5('Zhan123.'),
-        status: 1,
-        birthday: '1998-08-15',
-        sex: USER_SEX_ENUM.MAN,
-        email: 'lumin323@qq.com',
-        avatar:
-          'http://47.109.19.100/images/avatar1.jpg',
-        sign: '',
-        age: 18,
-        phone: '19875836765',
-        roles: [sup],
-        registerIp: '',
-        lastLoginIp: '',
-        createdAt: '2024-3-13 08:00'
-      },
-      {
-        username: 'admin',
-        nickname: '普通管理员',
-        password: encrypByMd5('Zhan123.'),
-        status: 1,
-        birthday: '1998-08-15',
-        sex: USER_SEX_ENUM.MAN,
-        email: 'lumin7@qq.com',
-        age: 18,
-        phone: '19875836765',
-        avatar:
-          'http://47.109.19.100/images/avatar2.jpg',
-        sign: '',
-        roles: [adm],
-        registerIp: '',
-        lastLoginIp: '',
-        createdAt: '2024-3-13 08:00'
-      },
-      {
-        username: 'myuser',
-        nickname: '普通用户',
-        age: 18,
-        phone: '19875836765',
-        password: encrypByMd5('123456'),
-        status: 1,
-        birthday: '1998-08-15',
-        sex: USER_SEX_ENUM.WOMAN,
-        email: 'randomuser3@example.com',
-        avatar:
-          'http://47.109.19.100/images/avatar3.jpg',
-        sign: '',
-        roles: [user],
-        registerIp: '',
-        lastLoginIp: '',
-        createdAt: '2024-3-13 08:00'
-      },
-      {
-        username: 'hisuser',
-        nickname: 'Random User 4',
-        password: encrypByMd5('123456'),
-        status: 1,
-        age: 18,
-        phone: '19875836765',
-        birthday: '1998-08-15',
-        sex: USER_SEX_ENUM.WOMAN,
-        email: 'randomuser4@example.com',
-        avatar:
-          'http://47.109.19.100/images/avatar3.jpg',
-        sign: '',
-        roles: [user],
-        registerIp: '',
-        lastLoginIp: '',
-        createdAt: '2024-3-13 08:00'
-      }
-    ])
-
-    await this.menuEntity.save([
-      {
-        id: 1,
-        title: '首页',
-        path: '/home',
-        name: 'Home',
-        componentPath: '/Home/Home',
-        redirect: '',
-        parentId: null,
-        sort: 0,
-        permission: '',
-        type: 1,
-        icon: 'ep:home-filled',
-        status: 1,
-        isKeepAlive: 1
-      },
-      {
-        id: 2,
-        title: '系统管理',
-        path: '/system',
-        name: 'System',
-        componentPath: '',
-        redirect: '',
-        parentId: null,
-        sort: 0,
-        permission: '',
-        type: 0,
-        icon: 'ep:setting',
-        status: 1,
-        isKeepAlive: 1
-      },
-      {
-        id: 3,
-        title: '用户管理',
-        path: '/user',
-        name: 'User',
-        componentPath: '/System/User/User',
-        redirect: '',
-        parentId: 2,
-        sort: 0,
-        permission: '',
-        type: 1,
-        icon: 'carbon:user-role',
-        status: 1,
-        isKeepAlive: 1
-      },
-      {
-        id: 4,
-        title: '角色管理',
-        path: '/role',
-        name: 'Role',
-        componentPath: '/System/Role/Role',
-        redirect: '',
-        parentId: 2,
-        sort: 0,
-        permission: '',
-        type: 1,
-        icon: 'carbon:user-avatar',
-        status: 1,
-        isKeepAlive: 1
-      },
-      {
-        id: 5,
-        title: '菜单管理',
-        path: '/menu',
-        name: 'Menu',
-        componentPath: '/System/Menu/Menu',
-        redirect: '',
-        parentId: 2,
-        sort: 0,
-        permission: '',
-        type: 1,
-        icon: 'carbon:book',
-        status: 1,
-        isKeepAlive: 1
-      }
-    ])
-
-    const menus = await this.menuEntity.find()
-
-    sup.menus = menus
-    await this.roleEntity.save(sup)
-  }
+  ) { }
 
   /**
    * @description 校验用户身份

@@ -8,31 +8,14 @@ import { AuthModule } from './modules/auth/auth.module'
 import { AuthGuard } from './common'
 import { RoleModule } from './modules/role/role.module'
 import { MenuModule } from './modules/menu/menu.module'
-import { DataSource } from 'typeorm'
 import { UploadModule } from './modules/upload/upload.module'
 import { DownloadModule } from './modules/download/download.module'
 import { UserEntity } from './modules/user/entities/user.entity'
+import { DatabaseModule } from './modules/database/database.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRootAsync({
-      useFactory: () => {
-        return {
-          type: 'mysql',
-          host: process.env.DB_HOST,
-          port: Number(process.env.DB_PORT),
-          username: process.env.DB_USER,
-          password: process.env.DB_PASS,
-          database: process.env.DB_DATABASE,
-          synchronize: Boolean(process.env.DB_SYNC),
-          autoLoadEntities: true
-        }
-      },
-      dataSourceFactory: async (options) => {
-        const dataSource = await new DataSource(options).initialize()
-        return dataSource
-      }
-    }),
+    DatabaseModule,
     // RolesGuard 使用到了UserEntity，所以需要在这里注册
     TypeOrmModule.forFeature([UserEntity]),
     VerifyModule,
@@ -41,9 +24,8 @@ import { UserEntity } from './modules/user/entities/user.entity'
     RoleModule,
     MenuModule,
     UploadModule,
-    DownloadModule
+    DownloadModule,
   ],
-  controllers: [],
   providers: [
     {
       provide: APP_GUARD,
@@ -55,4 +37,4 @@ import { UserEntity } from './modules/user/entities/user.entity'
     }
   ]
 })
-export class AppModule {}
+export class AppModule { }

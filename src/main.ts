@@ -27,9 +27,6 @@ async function bootstrap() {
   app.useGlobalInterceptors(new TransformInterceptor())
   // 使用过滤器
   app.useGlobalFilters(new BadRequestExceptionFilter())
-  // 配置静态资产的基础目录
-  app.useStaticAssets(process.env.FILE_PREFIX + process.env.IMAGE_PATH)
-  app.useStaticAssets(process.env.FILE_PREFIX + process.env.EXCLE_PATH)
   // 用于设置视图模板的基础目录
   app.setBaseViewsDir(join(__dirname, '../', 'views'))
   // 设置应用使用的视图引擎
@@ -51,6 +48,12 @@ async function bootstrap() {
       }
     })
   )
+
+  // 监听全局未捕获的异常
+  process.on('uncaughtException', function (err) {
+    console.log(err);
+  });
+
   // 创建swagger文档
   createSwagger(app)
   await app.listen(process.env.PORT, () => {
